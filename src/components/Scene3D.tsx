@@ -1,51 +1,121 @@
-import { useRef } from "react";
+import MultiPartSTLModel from "./models/MultiPartSTLModel";
 import { Canvas } from "@react-three/fiber";
-import * as THREE from "three";
 import {
   OrbitControls,
   PerspectiveCamera,
   Environment,
   Grid,
 } from "@react-three/drei";
+import {
+  CubeModel,
+  SphereModel,
+  TorusModel,
+  CylinderModel,
+  ConeModel,
+  GLTFModel,
+  STLModel,
+  OBJModel,
+} from "./models";
 
 interface Scene3DProps {
   modelUrl?: string;
+  modelType?: string;
+  fileExtension?: string;
   autoRotate?: boolean;
   gridVisible?: boolean;
+  cameraPosition?: [number, number, number];
+  isMultiPart?: boolean;
+  parts?: { name: string; url: string }[];
+  visibleParts?: boolean[];
 }
 
-function Model({ url }: { url?: string }) {
-  const meshRef = useRef<THREE.Mesh>(null);
-
-  if (!url) {
-    // Default cube when no model is loaded
-    return (
-      <mesh ref={meshRef} castShadow receiveShadow>
-        <boxGeometry args={[2, 2, 2]} />
-        <meshStandardMaterial color="#4f46e5" metalness={0.3} roughness={0.4} />
-      </mesh>
-    );
+function Model({
+  url,
+  type,
+  extension,
+  isMultiPart,
+  parts,
+  visibleParts,
+}: {
+  url?: string;
+  type?: string;
+  extension?: string;
+  isMultiPart?: boolean;
+  parts?: { name: string; url: string }[];
+  visibleParts?: boolean[];
+}) {
+  // Handle multi-part models
+  if (isMultiPart && parts) {
+    return <MultiPartSTLModel parts={parts} visibleParts={visibleParts} />;
   }
 
-  // TODO: Add model loader for GLTF, OBJ, etc.
-  return null;
+  // If URL is provided, determine the file type and load accordingly
+  if (url) {
+    // Use provided extension first, fallback to extracting from URL
+    const fileExt = extension || url.toLowerCase().split(".").pop();
+
+    switch (fileExt) {
+      case ".gltf":
+      case "gltf":
+      case ".glb":
+      case "glb":
+        return <GLTFModel url={url} />;
+      case ".stl":
+      case "stl":
+        return <STLModel url={url} />;
+      case ".obj":
+      case "obj":
+        return <OBJModel url={url} />;
+      default:
+        return <GLTFModel url={url} />;
+    }
+  }
+
+  // If modelType is specified, render the appropriate geometry
+  if (type) {
+    switch (type.toLowerCase()) {
+      case "cube":
+      case "cube model":
+        return <CubeModel />;
+      case "sphere":
+        return <SphereModel />;
+      case "torus":
+        return <TorusModel />;
+      case "cylinder":
+        return <CylinderModel />;
+      case "cone":
+        return <ConeModel />;
+      default:
+        return <CubeModel />;
+    }
+  }
+
+  // Default cube when no model is loaded
+  return <CubeModel />;
 }
 
 export default function Scene3D({
   modelUrl,
+  modelType,
+  fileExtension,
   autoRotate = true,
   gridVisible = true,
+  cameraPosition = [12, 6, 12],
+  isMultiPart,
+  parts,
+  visibleParts,
 }: Scene3DProps) {
   return (
     <div className="w-full h-full">
       <Canvas shadows>
-        <PerspectiveCamera makeDefault position={[5, 5, 5]} />
+        <PerspectiveCamera makeDefault position={cameraPosition} />
         <OrbitControls
           enablePan={true}
           enableZoom={true}
           enableRotate={true}
           autoRotate={autoRotate}
           autoRotateSpeed={2}
+          target={[0, 0, 0]}
         />
 
         {/* Lighting */}
@@ -68,18 +138,25 @@ export default function Scene3D({
             args={[20, 20]}
             cellSize={1}
             cellThickness={0.5}
-            cellColor="#6b7280"
+            cellColor="#374151"
             sectionSize={5}
             sectionThickness={1}
-            sectionColor="#9ca3af"
-            fadeDistance={50}
+            sectionColor="#4b5563"
+            fadeDistance={200}
             fadeStrength={1}
             infiniteGrid
           />
         )}
 
         {/* Model or default object */}
-        <Model url={modelUrl} />
+        <Model
+          url={modelUrl}
+          type={modelType}
+          extension={fileExtension}
+          isMultiPart={isMultiPart}
+          parts={parts}
+          visibleParts={visibleParts}
+        />
       </Canvas>
     </div>
   );

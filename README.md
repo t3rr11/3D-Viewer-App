@@ -1,73 +1,136 @@
-# React + TypeScript + Vite
+# 3D Viewer Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern web application for viewing and managing 3D models in the browser. Built with React, TypeScript, Three.js, and React Three Fiber, this application provides an interactive 3D viewing experience with support for multiple file formats and advanced visualization features.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Model Support
+- **Multiple File Formats**: View STL, OBJ, GLTF, and GLB models
+- **Multi-Part Models**: Support for viewing complex models with multiple components
+- **Geometric Primitives**: Built-in support for cubes, spheres, toruses, cylinders, and cones
+- **File Upload**: Upload and view your own 3D models directly in the browser
 
-## React Compiler
+### Visualization Features
+- **Interactive 3D Canvas**: Powered by React Three Fiber and Three.js
+- **Orbit Controls**: Pan, zoom, and rotate models with mouse/touch controls
+- **Auto-Rotation**: Optional automatic model rotation
+- **Grid Display**: Toggle-able reference grid for spatial context
+- **Environment Lighting**: Realistic lighting and shadows
+- **Camera Controls**: Adjustable camera positions and perspectives
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### User Interface
+- **Model Library**: Browse and manage your collection of 3D models
+- **Parts Panel**: Toggle visibility of individual parts in multi-part models
+- **View Picker**: Quick access to standard camera views (front, back, top, etc.)
+- **Toast Notifications**: User feedback for file uploads and actions
+- **Responsive Layout**: Dark-themed UI with sidebar navigation
 
-## Expanding the ESLint configuration
+### Sample Models Included
+- 3DBenchy (complete and 17-part version)
+- Cow OBJ model
+- Teapot OBJ model
+- Various geometric shapes
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Technology Stack
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **React 19.2** - UI framework
+- **TypeScript** - Type-safe development
+- **Vite** - Fast build tool and dev server
+- **Three.js** - 3D rendering engine
+- **React Three Fiber** - React renderer for Three.js
+- **React Three Drei** - Useful helpers for React Three Fiber
+- **Tailwind CSS 4** - Utility-first styling
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Getting Started
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Prerequisites
+- Node.js (version 18 or higher recommended)
+- npm or yarn package manager
+
+### Installation
+
+1. Clone the repository
+2. Install dependencies:
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Run the development server:
+```bash
+npm run dev
 ```
+
+The application will be available at `http://localhost:5173` (or another port if 5173 is in use).
+
+### Building for Production
+
+Create an optimized production build:
+```bash
+npm run build
+```
+
+Preview the production build locally:
+```bash
+npm run preview
+```
+
+### Linting
+
+Run ESLint to check code quality:
+```bash
+npm run lint
+```
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── models/          # 3D model components
+│   │   ├── CubeModel.tsx
+│   │   ├── SphereModel.tsx
+│   │   ├── STLModel.tsx
+│   │   ├── OBJModel.tsx
+│   │   ├── GLTFModel.tsx
+│   │   └── MultiPartSTLModel.tsx
+│   ├── Controls.tsx     # 3D viewer controls
+│   ├── DataTable.tsx    # Model library table
+│   ├── Header.tsx       # Application header
+│   ├── ModelDialog.tsx  # Model viewer dialog
+│   ├── PartsPanel.tsx   # Multi-part model controls
+│   ├── Scene3D.tsx      # Main 3D scene component
+│   ├── Sidebar.tsx      # Navigation sidebar
+│   ├── Toast.tsx        # Notification component
+│   └── ViewPicker.tsx   # Camera view selector
+├── assets/
+│   ├── obj/            # OBJ model files
+│   └── stl/            # STL model files
+├── App.tsx             # Main application component
+└── main.tsx            # Application entry point
+```
+
+## Usage
+
+1. **Browse Models**: View the model library on the main page
+2. **View a Model**: Click the "View" button on any model to open the 3D viewer
+3. **Upload Models**: Click "Upload Model" to add your own 3D files
+4. **Navigate in 3D**: Use mouse to rotate (left click), pan (right click), and zoom (scroll)
+5. **Toggle Parts**: For multi-part models, use the parts panel to show/hide components
+6. **Change Views**: Use the view picker to quickly jump to standard camera angles
+
+## Supported File Formats
+
+- **.stl** - Stereolithography files
+- **.obj** - Wavefront OBJ files
+- **.gltf** - GL Transmission Format (JSON)
+- **.glb** - GL Transmission Format (Binary)
+
+## Development
+
+This project was mostly generated by Claude Sonnet 4.5 as a quick proof of concept for exploring 3D model visualization work.
+
+## License
+
+MIT License - feel free to use this project however you'd like.
