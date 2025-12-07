@@ -9,7 +9,7 @@ interface OBJModelProps {
 
 export default function OBJModel({ url }: OBJModelProps) {
   const groupRef = useRef<Group>(null);
-  const obj = useLoader(OBJLoader, url);
+  const obj = useLoader(OBJLoader, encodeURI(url));
 
   useEffect(() => {
     if (groupRef.current && obj) {

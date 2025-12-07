@@ -9,7 +9,7 @@ interface STLModelProps {
 
 export default function STLModel({ url }: STLModelProps) {
   const groupRef = useRef<Group>(null);
-  const geometry = useLoader(STLLoader, url) as BufferGeometry;
+  const geometry = useLoader(STLLoader, encodeURI(url)) as BufferGeometry;
 
   useEffect(() => {
     if (groupRef.current && geometry) {

@@ -12,8 +12,8 @@ export default function MultiPartSTLModel({ parts, visibleParts }: MultiPartSTLM
   const groupRef = useRef<Group>(null);
   const processedRef = useRef(false);
   
-  // Create stable URL list on mount
-  const [stableUrls] = useState(() => parts.map(p => p.url));
+  // Create stable URL list on mount with URL encoding for spaces
+  const [stableUrls] = useState(() => parts.map(p => encodeURI(p.url)));
   
   // Load all geometries once using stable URL reference
   const geometries = useLoader(

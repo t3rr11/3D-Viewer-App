@@ -8,7 +8,7 @@ interface GLTFModelProps {
 
 export default function GLTFModel({ url }: GLTFModelProps) {
   const groupRef = useRef<Group>(null);
-  const { scene } = useGLTF(url);
+  const { scene } = useGLTF(encodeURI(url));
 
   useEffect(() => {
     if (groupRef.current) {

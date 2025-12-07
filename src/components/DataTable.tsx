@@ -16,23 +16,23 @@ interface ModelItem {
 }
 
 const benchyParts = [
-  { name: "Bridge roof", url: "/src/assets/stl/benchy-multi-part/Multi-part - Single - Bridge roof.stl" },
-  { name: "Bridge walls", url: "/src/assets/stl/benchy-multi-part/Multi-part - Single - Bridge walls.stl" },
-  { name: "Cargo box", url: "/src/assets/stl/benchy-multi-part/Multi-part - Single - Cargo box.stl" },
-  { name: "Chimney body", url: "/src/assets/stl/benchy-multi-part/Multi-part - Single - Chimney body.stl" },
-  { name: "Chimney top", url: "/src/assets/stl/benchy-multi-part/Multi-part - Single - Chimney top.stl" },
-  { name: "Deck surface", url: "/src/assets/stl/benchy-multi-part/Multi-part - Single - Deck surface.stl" },
-  { name: "Doorframe port", url: "/src/assets/stl/benchy-multi-part/Multi-part - Single - Doorframe port.stl" },
-  { name: "Doorframe starboard", url: "/src/assets/stl/benchy-multi-part/Multi-part - Single - Doorframe starboard.stl" },
-  { name: "Fishing-rod-holder", url: "/src/assets/stl/benchy-multi-part/Multi-part - Single - Fishing-rod-holder.stl" },
-  { name: "Gunwale", url: "/src/assets/stl/benchy-multi-part/Multi-part - Single - Gunwale.stl" },
-  { name: "Hawsepipe port", url: "/src/assets/stl/benchy-multi-part/Multi-part - Single - Hawsepipe port.stl" },
-  { name: "Hawsepipe starboard", url: "/src/assets/stl/benchy-multi-part/Multi-part - Single - Hawsepipe starboard.stl" },
-  { name: "Hull", url: "/src/assets/stl/benchy-multi-part/Multi-part - Single - Hull.stl" },
-  { name: "Stern name plate", url: "/src/assets/stl/benchy-multi-part/Multi-part - Single - Stern name plate.stl" },
-  { name: "Stern window", url: "/src/assets/stl/benchy-multi-part/Multi-part - Single - Stern window.stl" },
-  { name: "Wheel", url: "/src/assets/stl/benchy-multi-part/Multi-part - Single - Wheel.stl" },
-  { name: "Window", url: "/src/assets/stl/benchy-multi-part/Multi-part - Single - Window.stl" },
+  { name: "Bridge roof", url: "/stl/benchy-multi-part/Multi-part - Single - Bridge roof.stl" },
+  { name: "Bridge walls", url: "/stl/benchy-multi-part/Multi-part - Single - Bridge walls.stl" },
+  { name: "Cargo box", url: "/stl/benchy-multi-part/Multi-part - Single - Cargo box.stl" },
+  { name: "Chimney body", url: "/stl/benchy-multi-part/Multi-part - Single - Chimney body.stl" },
+  { name: "Chimney top", url: "/stl/benchy-multi-part/Multi-part - Single - Chimney top.stl" },
+  { name: "Deck surface", url: "/stl/benchy-multi-part/Multi-part - Single - Deck surface.stl" },
+  { name: "Doorframe port", url: "/stl/benchy-multi-part/Multi-part - Single - Doorframe port.stl" },
+  { name: "Doorframe starboard", url: "/stl/benchy-multi-part/Multi-part - Single - Doorframe starboard.stl" },
+  { name: "Fishing-rod-holder", url: "/stl/benchy-multi-part/Multi-part - Single - Fishing-rod-holder.stl" },
+  { name: "Gunwale", url: "/stl/benchy-multi-part/Multi-part - Single - Gunwale.stl" },
+  { name: "Hawsepipe port", url: "/stl/benchy-multi-part/Multi-part - Single - Hawsepipe port.stl" },
+  { name: "Hawsepipe starboard", url: "/stl/benchy-multi-part/Multi-part - Single - Hawsepipe starboard.stl" },
+  { name: "Hull", url: "/stl/benchy-multi-part/Multi-part - Single - Hull.stl" },
+  { name: "Stern name plate", url: "/stl/benchy-multi-part/Multi-part - Single - Stern name plate.stl" },
+  { name: "Stern window", url: "/stl/benchy-multi-part/Multi-part - Single - Stern window.stl" },
+  { name: "Wheel", url: "/stl/benchy-multi-part/Multi-part - Single - Wheel.stl" },
+  { name: "Window", url: "/stl/benchy-multi-part/Multi-part - Single - Window.stl" },
 ];
 
 const sampleData: ModelItem[] = [
@@ -52,7 +52,7 @@ const sampleData: ModelItem[] = [
     type: "STL Model",
     size: "2.8 MB",
     dateAdded: "2025-12-07",
-    modelUrl: "/src/assets/stl/benchy-multi-part/Multi-part - Complete (17 shells).stl",
+    modelUrl: "/stl/benchy-multi-part/Multi-part - Complete (17 shells).stl",
     fileExtension: ".stl",
   },
   {
@@ -61,7 +61,7 @@ const sampleData: ModelItem[] = [
     type: "OBJ Model",
     size: "1.2 MB",
     dateAdded: "2025-12-07",
-    modelUrl: "/src/assets/obj/cow.obj",
+    modelUrl: "/obj/cow.obj",
     fileExtension: ".obj",
   },
   {
@@ -70,7 +70,7 @@ const sampleData: ModelItem[] = [
     type: "OBJ Model",
     size: "0.8 MB",
     dateAdded: "2025-12-07",
-    modelUrl: "/src/assets/obj/teapot.obj",
+    modelUrl: "/obj/teapot.obj",
     fileExtension: ".obj",
   },
   {
