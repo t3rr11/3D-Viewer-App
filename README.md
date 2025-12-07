@@ -2,6 +2,14 @@
 
 A modern web application for viewing and managing 3D models in the browser. Built with React, TypeScript, Three.js, and React Three Fiber, this application provides an interactive 3D viewing experience with support for multiple file formats and advanced visualization features.
 
+## Screenshots
+
+### Model Library
+![Data Table View](./images/data-table.png)
+
+### 3D Viewer
+![3D Model Viewer](./images/viewer.png)
+
 ## Features
 
 ### Model Support
