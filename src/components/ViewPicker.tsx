@@ -4,7 +4,7 @@ interface ViewPickerProps {
 
 export default function ViewPicker({ onViewChange }: ViewPickerProps) {
   return (
-    <div className="absolute bottom-4 right-4 z-30 bg-gray-900/90 backdrop-blur-sm rounded-lg border border-gray-800 p-3">
+    <div className="absolute bottom-4 left-4 z-30 bg-gray-900/90 backdrop-blur-sm rounded-lg border border-gray-800 p-3">
       <div className="grid grid-cols-3 gap-2">
         {/* Top row */}
         <div />

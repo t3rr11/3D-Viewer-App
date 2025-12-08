@@ -1,14 +1,22 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect, useState, useMemo } from "react";
 import { useLoader } from "@react-three/fiber";
+import type { ThreeEvent } from "@react-three/fiber";
 import { STLLoader } from "three/examples/jsm/loaders/STLLoader.js";
 import { BufferGeometry, Vector3, Group, Box3 } from "three";
 
 interface MultiPartSTLModelProps {
   parts: { name: string; url: string }[];
   visibleParts?: boolean[];
+  selectedPartIndices?: number[];
+  onPartClick?: (index: number, ctrlKey: boolean) => void;
 }
 
-export default function MultiPartSTLModel({ parts, visibleParts }: MultiPartSTLModelProps) {
+export default function MultiPartSTLModel({ 
+  parts, 
+  visibleParts,
+  selectedPartIndices = [],
+  onPartClick,
+}: MultiPartSTLModelProps) {
   const groupRef = useRef<Group>(null);
   const processedRef = useRef(false);
   
@@ -63,23 +71,64 @@ export default function MultiPartSTLModel({ parts, visibleParts }: MultiPartSTLM
     }
   }, [geometries]);
 
+  // Memoize instance indices mapping for performance
+  const instanceMap = useMemo(() => {
+    const map = new Map<string, number[]>();
+    parts.forEach((part, index) => {
+      if (!map.has(part.name)) {
+        map.set(part.name, []);
+      }
+      map.get(part.name)!.push(index);
+    });
+    return map;
+  }, [parts]);
+
   return (
     <group ref={groupRef}>
       {geometries.map((geometry: BufferGeometry, index: number) => {
         const part = parts[index];
         const isVisible = visibleParts?.[index] !== false;
+        
+        // Check if this part is in the selected group
+        const instanceIndices = instanceMap.get(part.name) || [];
+        const isPartOfSelectedGroup = selectedPartIndices.some(selectedIdx => 
+          instanceIndices.includes(selectedIdx)
+        );
+        
+        const handleClick = (e: ThreeEvent<MouseEvent>) => {
+          e.stopPropagation();
+          if (onPartClick) {
+            onPartClick(index, e.nativeEvent.ctrlKey || e.nativeEvent.metaKey);
+          }
+        };
+
+        // Determine if any part is selected
+        const hasSelection = selectedPartIndices.length > 0;
+        // Make non-selected parts semi-transparent when a part is selected
+        const opacity = hasSelection && !isPartOfSelectedGroup ? 0.3 : 1.0;
+        const transparent = hasSelection && !isPartOfSelectedGroup;
+
         return (
           <mesh
-            key={part.name}
+            key={part.name + "-" + index}
             geometry={geometry}
-            castShadow
+            castShadow={!transparent}
             receiveShadow
             visible={isVisible}
+            onClick={handleClick}
+            renderOrder={isPartOfSelectedGroup ? 1 : 0}
           >
             <meshStandardMaterial
-              color="#4f46e5"
+              color={isPartOfSelectedGroup ? "#06b6d4" : "#4f46e5"}
               metalness={0.3}
               roughness={0.4}
+              emissive={isPartOfSelectedGroup ? "#06b6d4" : "#000000"}
+              emissiveIntensity={isPartOfSelectedGroup ? 0.3 : 0}
+              opacity={opacity}
+              transparent={true}
+              depthTest={true}
+              depthWrite={!transparent}
+              alphaTest={0.01}
             />
           </mesh>
         );

@@ -16,6 +16,7 @@ import {
   STLModel,
   OBJModel,
 } from "./models";
+import { useRef } from "react";
 
 interface Scene3DProps {
   modelUrl?: string;
@@ -27,6 +28,9 @@ interface Scene3DProps {
   isMultiPart?: boolean;
   parts?: { name: string; url: string }[];
   visibleParts?: boolean[];
+  selectedPartIndices?: number[];
+  onPartClick?: (index: number, ctrlKey: boolean) => void;
+  onBackgroundClick?: () => void;
 }
 
 function Model({
@@ -36,6 +40,8 @@ function Model({
   isMultiPart,
   parts,
   visibleParts,
+  selectedPartIndices,
+  onPartClick,
 }: {
   url?: string;
   type?: string;
@@ -43,10 +49,19 @@ function Model({
   isMultiPart?: boolean;
   parts?: { name: string; url: string }[];
   visibleParts?: boolean[];
+  selectedPartIndices?: number[];
+  onPartClick?: (index: number, ctrlKey: boolean) => void;
 }) {
   // Handle multi-part models
   if (isMultiPart && parts) {
-    return <MultiPartSTLModel parts={parts} visibleParts={visibleParts} />;
+    return (
+      <MultiPartSTLModel 
+        parts={parts} 
+        visibleParts={visibleParts}
+        selectedPartIndices={selectedPartIndices}
+        onPartClick={onPartClick}
+      />
+    );
   }
 
   // If URL is provided, determine the file type and load accordingly
@@ -94,6 +109,35 @@ function Model({
   return <CubeModel />;
 }
 
+function BackgroundPlane({ onBackgroundClick }: { onBackgroundClick?: () => void }) {
+  const mouseDownPos = useRef({ x: 0, y: 0 });
+
+  return (
+    <mesh
+      rotation={[-Math.PI / 2, 0, 0]}
+      position={[0, -0.01, 0]}
+      onPointerDown={(e) => {
+        mouseDownPos.current = { x: e.clientX, y: e.clientY };
+      }}
+      onPointerUp={(e) => {
+        // Calculate distance moved
+        const dx = e.clientX - mouseDownPos.current.x;
+        const dy = e.clientY - mouseDownPos.current.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        // Only trigger click if mouse didn't move much (less than 5 pixels)
+        if (distance < 5) {
+          e.stopPropagation();
+          onBackgroundClick?.();
+        }
+      }}
+    >
+      <planeGeometry args={[1000, 1000]} />
+      <meshBasicMaterial visible={false} />
+    </mesh>
+  );
+}
+
 export default function Scene3D({
   modelUrl,
   modelType,
@@ -104,6 +148,9 @@ export default function Scene3D({
   isMultiPart,
   parts,
   visibleParts,
+  selectedPartIndices,
+  onPartClick,
+  onBackgroundClick,
 }: Scene3DProps) {
   return (
     <div className="w-full h-full">
@@ -148,6 +195,9 @@ export default function Scene3D({
           />
         )}
 
+        {/* Invisible plane to catch background clicks */}
+        <BackgroundPlane onBackgroundClick={onBackgroundClick} />
+
         {/* Model or default object */}
         <Model
           url={modelUrl}
@@ -156,6 +206,8 @@ export default function Scene3D({
           isMultiPart={isMultiPart}
           parts={parts}
           visibleParts={visibleParts}
+          selectedPartIndices={selectedPartIndices}
+          onPartClick={onPartClick}
         />
       </Canvas>
     </div>

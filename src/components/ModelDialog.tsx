@@ -3,6 +3,7 @@ import Scene3D from "./Scene3D";
 import Controls from "./Controls";
 import ViewPicker from "./ViewPicker";
 import PartsPanel from "./PartsPanel";
+import PartDetailsPanel from "./PartDetailsPanel";
 
 interface ModelDialogProps {
   isOpen: boolean;
@@ -32,6 +33,7 @@ export default function ModelDialog({
   const [visibleParts, setVisibleParts] = useState<boolean[]>(
     parts ? parts.map(() => true) : []
   );
+  const [selectedPartIndices, setSelectedPartIndices] = useState<number[]>([]);
 
   const handleReset = () => {
     setResetTrigger((prev) => prev + 1);
@@ -48,6 +50,42 @@ export default function ModelDialog({
 
   const handleToggleAll = (visible: boolean) => {
     setVisibleParts(parts ? parts.map(() => visible) : []);
+  };
+
+  const handlePartClick = (index: number, ctrlKey: boolean = false) => {
+    setSelectedPartIndices((prev) => {
+      if (ctrlKey) {
+        // Multi-select with Ctrl/Cmd
+        if (prev.includes(index)) {
+          // Deselect if already selected
+          return prev.filter(i => i !== index);
+        } else {
+          // Add to selection
+          return [...prev, index];
+        }
+      } else {
+        // Single select - toggle if clicking same part
+        if (prev.length === 1 && prev[0] === index) {
+          return [];
+        }
+        return [index];
+      }
+    });
+  };
+
+  const handleCloseDetails = () => {
+    setSelectedPartIndices([]);
+  };
+
+  const handleBackgroundClick = () => {
+    setSelectedPartIndices([]);
+  };
+
+  // Calculate instance count for selected part
+  const getInstanceCount = (partIndex: number) => {
+    if (!parts || partIndex === null) return 0;
+    const partName = parts[partIndex].name;
+    return parts.filter((p) => p.name === partName).length;
   };
 
   const handleViewChange = (view: string) => {
@@ -128,6 +166,18 @@ export default function ModelDialog({
               }))}
               onTogglePart={handleTogglePart}
               onToggleAll={handleToggleAll}
+              selectedPartIndices={selectedPartIndices}
+              onPartClick={handlePartClick}
+            />
+          )}
+          {selectedPartIndices.length > 0 && parts && (
+            <PartDetailsPanel
+              partName={selectedPartIndices.length === 1 ? parts[selectedPartIndices[0]].name : `${selectedPartIndices.length} parts selected`}
+              partIndices={selectedPartIndices}
+              instanceCount={selectedPartIndices.length === 1 ? getInstanceCount(selectedPartIndices[0]) : selectedPartIndices.length}
+              onClose={handleCloseDetails}
+              isMultiSelect={selectedPartIndices.length > 1}
+              parts={parts}
             />
           )}
           <Scene3D
@@ -141,6 +191,9 @@ export default function ModelDialog({
             isMultiPart={isMultiPart}
             parts={parts}
             visibleParts={visibleParts}
+            selectedPartIndices={selectedPartIndices}
+            onPartClick={handlePartClick}
+            onBackgroundClick={handleBackgroundClick}
           />
         </div>
 
