@@ -35,7 +35,8 @@ export default function STLModel({
     const loadSTL = async () => {
       try {
         const loader = new STLLoader();
-        const response = await fetch(encodeURI(url));
+        const fetchUrl = url.startsWith('blob:') ? url : encodeURI(url);
+        const response = await fetch(fetchUrl);
 
         if (!response.ok) {
           throw new Error(`Failed to fetch: ${response.statusText}`);
@@ -62,7 +63,21 @@ export default function STLModel({
         const header = new TextDecoder().decode(
           new Uint8Array(arrayBuffer).slice(0, 5)
         );
-        const isAscii = header.toLowerCase() === "solid";
+        
+        // Better detection: check if file size matches binary STL format
+        // Binary STL: 80 bytes header + 4 bytes triangle count + (triangles * 50 bytes)
+        let isAscii = header.toLowerCase() === "solid";
+        
+        if (isAscii && arrayBuffer.byteLength > 84) {
+          // Read triangle count from bytes 80-84
+          const triangleCount = new DataView(arrayBuffer).getUint32(80, true);
+          const expectedBinarySize = 80 + 4 + (triangleCount * 50);
+          
+          // If size matches binary format, it's actually binary despite "solid" header
+          if (Math.abs(arrayBuffer.byteLength - expectedBinarySize) < 10) {
+            isAscii = false;
+          }
+        }
 
         let loadedGeometry: BufferGeometry;
         if (isAscii) {
@@ -71,6 +86,9 @@ export default function STLModel({
         } else {
           loadedGeometry = loader.parse(arrayBuffer);
         }
+
+        // Compute normals for proper lighting
+        loadedGeometry.computeVertexNormals();
 
         // Center, scale, and prepare orientation data
         loadedGeometry.computeBoundingBox();

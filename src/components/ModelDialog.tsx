@@ -10,7 +10,6 @@ interface ModelDialogProps {
   onClose: () => void;
   modelName: string;
   modelUrl?: string;
-  modelType?: string;
   fileExtension?: string;
   isMultiPart?: boolean;
   parts?: { name: string; url: string }[];
@@ -22,7 +21,6 @@ export default function ModelDialog({
   onClose,
   modelName,
   modelUrl,
-  modelType,
   fileExtension,
   isMultiPart,
   parts,
@@ -31,7 +29,9 @@ export default function ModelDialog({
   const [autoRotate, setAutoRotate] = useState(false);
   const [gridVisible, setGridVisible] = useState(true);
   const [resetTrigger, setResetTrigger] = useState(0);
-  const [cameraPosition, setCameraPosition] = useState<[number, number, number]>([12, 6, 12]);
+  const [cameraPosition, setCameraPosition] = useState<
+    [number, number, number]
+  >([12, 6, 12]);
   const [visibleParts, setVisibleParts] = useState<boolean[]>(
     parts ? parts.map(() => true) : []
   );
@@ -46,7 +46,7 @@ export default function ModelDialog({
     setModelRotation({ x: 0, y: 0, z: 0 });
   };
 
-  const handleRotationChange = (axis: 'x' | 'y' | 'z', value: number) => {
+  const handleRotationChange = (axis: "x" | "y" | "z", value: number) => {
     setModelRotation((prev) => ({ ...prev, [axis]: value }));
   };
 
@@ -68,7 +68,7 @@ export default function ModelDialog({
         // Multi-select with Ctrl/Cmd
         if (prev.includes(index)) {
           // Deselect if already selected
-          return prev.filter(i => i !== index);
+          return prev.filter((i) => i !== index);
         } else {
           // Add to selection
           return [...prev, index];
@@ -92,7 +92,9 @@ export default function ModelDialog({
   };
 
   const handleFullscreen = () => {
-    const dialogElement = document.querySelector('.model-dialog-container') as HTMLElement;
+    const dialogElement = document.querySelector(
+      ".model-dialog-container"
+    ) as HTMLElement;
     if (!dialogElement) return;
 
     if (!isFullscreen) {
@@ -156,83 +158,83 @@ export default function ModelDialog({
       <div className="relative bg-gray-900 rounded-lg shadow-2xl w-[90vw] h-[90vh] flex flex-col border border-gray-800 model-dialog-container">
         {/* Dialog Header */}
         {uiVisible && (
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-800">
-          <h2 className="text-xl font-semibold text-white">{modelName}</h2>
-          <div className="flex items-center gap-2">
-            {/* Toggle UI Button */}
-            <button
-              onClick={handleToggleUI}
-              className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-800 rounded-lg"
-              title="Hide UI"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-800">
+            <h2 className="text-xl font-semibold text-white">{modelName}</h2>
+            <div className="flex items-center gap-2">
+              {/* Toggle UI Button */}
+              <button
+                onClick={handleToggleUI}
+                className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-800 rounded-lg"
+                title="Hide UI"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
-                />
-              </svg>
-            </button>
-            {/* Fullscreen Button */}
-            <button
-              onClick={handleFullscreen}
-              className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-800 rounded-lg"
-              title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                {isFullscreen ? (
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M15 9h4.5M15 9V4.5M15 9l5.25-5.25M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25"
+                    d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
                   />
-                ) : (
+                </svg>
+              </button>
+              {/* Fullscreen Button */}
+              <button
+                onClick={handleFullscreen}
+                className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-800 rounded-lg"
+                title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  {isFullscreen ? (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M15 9h4.5M15 9V4.5M15 9l5.25-5.25M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25"
+                    />
+                  ) : (
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+                    />
+                  )}
+                </svg>
+              </button>
+              {/* Close Button */}
+              <button
+                onClick={onClose}
+                className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-800 rounded-lg"
+                title="Close"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+                    d="M6 18L18 6M6 6l12 12"
                   />
-                )}
-              </svg>
-            </button>
-            {/* Close Button */}
-            <button
-              onClick={onClose}
-              className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-800 rounded-lg"
-              title="Close"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
+                </svg>
+              </button>
+            </div>
           </div>
-        </div>
         )}
 
         {/* UI Toggle Button (visible when UI is hidden) */}
@@ -269,44 +271,51 @@ export default function ModelDialog({
         <div className="flex-1 relative">
           {uiVisible && (
             <>
-          <Controls
-            autoRotate={autoRotate}
-            setAutoRotate={setAutoRotate}
-            gridVisible={gridVisible}
-            setGridVisible={setGridVisible}
-            onReset={handleReset}
-            rotation={modelRotation}
-            onRotationChange={handleRotationChange}
-          />
-          <ViewPicker onViewChange={handleViewChange} />
-          {isMultiPart && parts && (
-            <PartsPanel
-              parts={parts.map((part, index) => ({
-                name: part.name,
-                visible: visibleParts[index],
-              }))}
-              onTogglePart={handleTogglePart}
-              onToggleAll={handleToggleAll}
-              selectedPartIndices={selectedPartIndices}
-              onPartClick={handlePartClick}
-            />
-          )}
-          {selectedPartIndices.length > 0 && parts && (
-            <PartDetailsPanel
-              partName={selectedPartIndices.length === 1 ? parts[selectedPartIndices[0]].name : `${selectedPartIndices.length} parts selected`}
-              partIndices={selectedPartIndices}
-              instanceCount={selectedPartIndices.length === 1 ? getInstanceCount(selectedPartIndices[0]) : selectedPartIndices.length}
-              onClose={handleCloseDetails}
-              isMultiSelect={selectedPartIndices.length > 1}
-              parts={parts}
-            />
-          )}
+              <Controls
+                autoRotate={autoRotate}
+                setAutoRotate={setAutoRotate}
+                gridVisible={gridVisible}
+                setGridVisible={setGridVisible}
+                onReset={handleReset}
+                rotation={modelRotation}
+                onRotationChange={handleRotationChange}
+              />
+              <ViewPicker onViewChange={handleViewChange} />
+              {isMultiPart && parts && (
+                <PartsPanel
+                  parts={parts.map((part, index) => ({
+                    name: part.name,
+                    visible: visibleParts[index],
+                  }))}
+                  onTogglePart={handleTogglePart}
+                  onToggleAll={handleToggleAll}
+                  selectedPartIndices={selectedPartIndices}
+                  onPartClick={handlePartClick}
+                />
+              )}
+              {selectedPartIndices.length > 0 && parts && (
+                <PartDetailsPanel
+                  partName={
+                    selectedPartIndices.length === 1
+                      ? parts[selectedPartIndices[0]].name
+                      : `${selectedPartIndices.length} parts selected`
+                  }
+                  partIndices={selectedPartIndices}
+                  instanceCount={
+                    selectedPartIndices.length === 1
+                      ? getInstanceCount(selectedPartIndices[0])
+                      : selectedPartIndices.length
+                  }
+                  onClose={handleCloseDetails}
+                  isMultiSelect={selectedPartIndices.length > 1}
+                  parts={parts}
+                />
+              )}
             </>
           )}
           <Scene3D
             key={resetTrigger}
             modelUrl={modelUrl}
-            modelType={modelType}
             fileExtension={fileExtension}
             autoRotate={autoRotate}
             gridVisible={gridVisible}
@@ -325,13 +334,14 @@ export default function ModelDialog({
 
         {/* Dialog Footer */}
         {uiVisible && (
-        <div className="px-6 py-4 border-t border-gray-800 bg-gray-900/50">
-          <p className="text-sm text-gray-400">
-            <strong className="text-gray-300">Controls:</strong> Use mouse to rotate, zoom, and pan • 
-            {isMultiPart && " Ctrl+Click to multi-select parts • "}
-            Double-click rotation sliders to reset to 0°
-          </p>
-        </div>
+          <div className="px-6 py-4 border-t border-gray-800 bg-gray-900/50">
+            <p className="text-sm text-gray-400">
+              <strong className="text-gray-300">Controls:</strong> Use mouse to
+              rotate, zoom, and pan •
+              {isMultiPart && " Ctrl+Click to multi-select parts • "}
+              Double-click rotation sliders to reset to 0°
+            </p>
+          </div>
         )}
       </div>
     </div>

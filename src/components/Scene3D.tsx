@@ -2,18 +2,17 @@ import MultiPartSTLModel from "./models/MultiPartSTLModel";
 import { useRef, Suspense, useState } from "react";
 import { Canvas } from "@react-three/fiber";
 import { GLTFModel, STLModel, OBJModel, CubeModel } from "./models";
+import ErrorBoundary from "./ErrorBoundary";
+import ModelErrorFallback from "./ModelErrorFallback";
 import {
   OrbitControls,
   PerspectiveCamera,
   Environment,
   Grid,
 } from "@react-three/drei";
-import ErrorBoundary from "./ErrorBoundary";
-import ModelErrorFallback from "./ModelErrorFallback";
 
 interface Scene3DProps {
   modelUrl?: string;
-  modelType?: string;
   fileExtension?: string;
   autoRotate?: boolean;
   gridVisible?: boolean;
@@ -43,7 +42,6 @@ function Model({
   defaultRotation,
 }: {
   url?: string;
-  type?: string;
   extension?: string;
   isMultiPart?: boolean;
   parts?: { name: string; url: string }[];
@@ -154,7 +152,6 @@ function BackgroundPlane({
 
 export default function Scene3D({
   modelUrl,
-  modelType,
   fileExtension,
   autoRotate = true,
   gridVisible = true,
@@ -239,7 +236,6 @@ export default function Scene3D({
           <Suspense fallback={null}>
             <Model
               url={modelUrl}
-              type={modelType}
               extension={fileExtension}
               isMultiPart={isMultiPart}
               parts={parts}

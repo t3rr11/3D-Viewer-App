@@ -8,7 +8,7 @@ import { sampleData } from "../constants/models";
 import { validateFileType, createModelItem } from "../utils/fileUpload";
 import type { ModelItem } from "../types/models";
 
-export default function DataTable() {
+export default function DataGrid() {
   const [selectedModel, setSelectedModel] = useState<ModelItem | null>(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [models, setModels] = useState<ModelItem[]>(sampleData);
@@ -76,73 +76,57 @@ export default function DataTable() {
           </button>
         </div>
 
-        <div className="bg-gray-900 rounded-lg border border-gray-800 overflow-hidden">
-          <table className="w-full">
-            <thead className="bg-gray-800">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                  Name
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                  Size
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                  Date Added
-                </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-400 uppercase tracking-wider">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-800">
-              {models.map((item) => (
-                <tr
-                  key={item.id}
-                  onClick={() => handleViewClick(item)}
-                  className="hover:bg-gray-800/50 transition-colors cursor-pointer"
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
+          {models.map((item) => (
+            <div
+              key={item.id}
+              onClick={() => handleViewClick(item)}
+              className="bg-gray-900 rounded-lg border border-gray-800 overflow-hidden hover:border-indigo-600 transition-all cursor-pointer group"
+            >
+              {/* Thumbnail Section */}
+              <div className="aspect-square bg-gray-800 flex items-center justify-center">
+                <ModelThumbnail
+                  modelUrl={item.modelUrl}
+                  fileExtension={item.fileExtension}
+                  isMultiPart={item.isMultiPart}
+                  parts={item.parts}
+                  defaultRotation={item.defaultRotation}
+                  className="w-full h-full"
+                />
+              </div>
+
+              {/* Info Section */}
+              <div className="p-4">
+                <h3 className="text-white font-medium text-sm mb-1 truncate group-hover:text-indigo-400 transition-colors">
+                  {item.name}
+                </h3>
+                <p
+                  className={`text-xs mb-3 ${
+                    item.type === "File System"
+                      ? "text-yellow-500"
+                      : "text-gray-400"
+                  }`}
                 >
-                  <td className="px-6 py-4">
-                    <div className="flex items-center gap-4">
-                      <ModelThumbnail
-                        modelUrl={item.modelUrl}
-                        fileExtension={item.fileExtension}
-                        isMultiPart={item.isMultiPart}
-                        parts={item.parts}
-                        defaultRotation={item.defaultRotation}
-                        className="w-16 h-16"
-                      />
-                      <div>
-                        <div className="text-sm font-medium text-white">
-                          {item.name}
-                        </div>
-                        <div className={`text-xs mt-1 ${
-                          item.type === "Loaded (Temporary)" ? "text-yellow-500" : "text-gray-400"
-                        }`}>
-                          {item.type}
-                        </div>
-                      </div>
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-400">{item.size}</div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-400">
-                      {item.dateAdded}
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right">
-                    <button
-                      onClick={() => handleViewClick(item)}
-                      className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors"
-                    >
-                      View
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                  {item.type}
+                </p>
+
+                <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
+                  <span>{item.size}</span>
+                  <span>{item.dateAdded}</span>
+                </div>
+
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleViewClick(item);
+                  }}
+                  className="w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors"
+                >
+                  View Model
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 

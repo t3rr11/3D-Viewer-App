@@ -97,8 +97,8 @@ export default function MultiPartSTLModel({
   const groupRef = useRef<Group>(null);
   const processedRef = useRef(false);
 
-  // Create stable URL list on mount with URL encoding for spaces
-  const [stableUrls] = useState(() => parts.map((p) => encodeURI(p.url)));
+  // Create stable URL list on mount with URL encoding for spaces (but not for blob URLs)
+  const [stableUrls] = useState(() => parts.map((p) => p.url.startsWith('blob:') ? p.url : encodeURI(p.url)));
 
   // Load all geometries once using stable URL reference
   const geometries = useLoader(STLLoader, stableUrls) as BufferGeometry[];
