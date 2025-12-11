@@ -14,6 +14,7 @@ interface ModelDialogProps {
   fileExtension?: string;
   isMultiPart?: boolean;
   parts?: { name: string; url: string }[];
+  defaultRotation?: { x: number; y: number; z: number };
 }
 
 export default function ModelDialog({
@@ -25,6 +26,7 @@ export default function ModelDialog({
   fileExtension,
   isMultiPart,
   parts,
+  defaultRotation,
 }: ModelDialogProps) {
   const [autoRotate, setAutoRotate] = useState(false);
   const [gridVisible, setGridVisible] = useState(true);
@@ -34,10 +36,18 @@ export default function ModelDialog({
     parts ? parts.map(() => true) : []
   );
   const [selectedPartIndices, setSelectedPartIndices] = useState<number[]>([]);
+  const [modelRotation, setModelRotation] = useState({ x: 0, y: 0, z: 0 });
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [uiVisible, setUiVisible] = useState(true);
 
   const handleReset = () => {
     setResetTrigger((prev) => prev + 1);
     setCameraPosition([12, 6, 12]);
+    setModelRotation({ x: 0, y: 0, z: 0 });
+  };
+
+  const handleRotationChange = (axis: 'x' | 'y' | 'z', value: number) => {
+    setModelRotation((prev) => ({ ...prev, [axis]: value }));
   };
 
   const handleTogglePart = (index: number) => {
@@ -79,6 +89,26 @@ export default function ModelDialog({
 
   const handleBackgroundClick = () => {
     setSelectedPartIndices([]);
+  };
+
+  const handleFullscreen = () => {
+    const dialogElement = document.querySelector('.model-dialog-container') as HTMLElement;
+    if (!dialogElement) return;
+
+    if (!isFullscreen) {
+      if (dialogElement.requestFullscreen) {
+        dialogElement.requestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+    setIsFullscreen(!isFullscreen);
+  };
+
+  const handleToggleUI = () => {
+    setUiVisible(!uiVisible);
   };
 
   // Calculate instance count for selected part
@@ -123,13 +153,94 @@ export default function ModelDialog({
       />
 
       {/* Dialog */}
-      <div className="relative bg-gray-900 rounded-lg shadow-2xl w-[90vw] h-[90vh] flex flex-col border border-gray-800">
+      <div className="relative bg-gray-900 rounded-lg shadow-2xl w-[90vw] h-[90vh] flex flex-col border border-gray-800 model-dialog-container">
         {/* Dialog Header */}
+        {uiVisible && (
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-800">
           <h2 className="text-xl font-semibold text-white">{modelName}</h2>
+          <div className="flex items-center gap-2">
+            {/* Toggle UI Button */}
+            <button
+              onClick={handleToggleUI}
+              className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-800 rounded-lg"
+              title="Hide UI"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
+                />
+              </svg>
+            </button>
+            {/* Fullscreen Button */}
+            <button
+              onClick={handleFullscreen}
+              className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-800 rounded-lg"
+              title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                {isFullscreen ? (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 9V4.5M9 9H4.5M9 9L3.75 3.75M15 9h4.5M15 9V4.5M15 9l5.25-5.25M9 15v4.5M9 15H4.5M9 15l-5.25 5.25M15 15h4.5M15 15v4.5m0-4.5l5.25 5.25"
+                  />
+                ) : (
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+                  />
+                )}
+              </svg>
+            </button>
+            {/* Close Button */}
+            <button
+              onClick={onClose}
+              className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-800 rounded-lg"
+              title="Close"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+          </div>
+        </div>
+        )}
+
+        {/* UI Toggle Button (visible when UI is hidden) */}
+        {!uiVisible && (
           <button
-            onClick={onClose}
-            className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-800 rounded-lg"
+            onClick={handleToggleUI}
+            className="absolute top-4 right-4 z-10 text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-800 rounded-lg bg-gray-900/80 backdrop-blur-sm"
+            title="Show UI"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -142,20 +253,30 @@ export default function ModelDialog({
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth={2}
-                d="M6 18L18 6M6 6l12 12"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
               />
             </svg>
           </button>
-        </div>
+        )}
 
         {/* Dialog Content */}
         <div className="flex-1 relative">
+          {uiVisible && (
+            <>
           <Controls
             autoRotate={autoRotate}
             setAutoRotate={setAutoRotate}
             gridVisible={gridVisible}
             setGridVisible={setGridVisible}
             onReset={handleReset}
+            rotation={modelRotation}
+            onRotationChange={handleRotationChange}
           />
           <ViewPicker onViewChange={handleViewChange} />
           {isMultiPart && parts && (
@@ -180,6 +301,8 @@ export default function ModelDialog({
               parts={parts}
             />
           )}
+            </>
+          )}
           <Scene3D
             key={resetTrigger}
             modelUrl={modelUrl}
@@ -194,15 +317,22 @@ export default function ModelDialog({
             selectedPartIndices={selectedPartIndices}
             onPartClick={handlePartClick}
             onBackgroundClick={handleBackgroundClick}
+            onClose={onClose}
+            modelRotation={modelRotation}
+            defaultRotation={defaultRotation}
           />
         </div>
 
         {/* Dialog Footer */}
+        {uiVisible && (
         <div className="px-6 py-4 border-t border-gray-800 bg-gray-900/50">
           <p className="text-sm text-gray-400">
-            Use mouse to rotate, zoom, and pan the 3D model
+            <strong className="text-gray-300">Controls:</strong> Use mouse to rotate, zoom, and pan • 
+            {isMultiPart && " Ctrl+Click to multi-select parts • "}
+            Double-click rotation sliders to reset to 0°
           </p>
         </div>
+        )}
       </div>
     </div>
   );

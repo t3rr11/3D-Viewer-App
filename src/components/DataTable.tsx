@@ -13,26 +13,78 @@ interface ModelItem {
   fileExtension?: string;
   isMultiPart?: boolean;
   parts?: { name: string; url: string }[];
+  defaultRotation?: { x: number; y: number; z: number };
 }
 
 const benchyParts = [
-  { name: "Bridge roof", url: "/stl/benchy-multi-part/Multi-part - Single - Bridge roof.stl" },
-  { name: "Bridge walls", url: "/stl/benchy-multi-part/Multi-part - Single - Bridge walls.stl" },
-  { name: "Cargo box", url: "/stl/benchy-multi-part/Multi-part - Single - Cargo box.stl" },
-  { name: "Chimney body", url: "/stl/benchy-multi-part/Multi-part - Single - Chimney body.stl" },
-  { name: "Chimney top", url: "/stl/benchy-multi-part/Multi-part - Single - Chimney top.stl" },
-  { name: "Deck surface", url: "/stl/benchy-multi-part/Multi-part - Single - Deck surface.stl" },
-  { name: "Doorframe port", url: "/stl/benchy-multi-part/Multi-part - Single - Doorframe port.stl" },
-  { name: "Doorframe starboard", url: "/stl/benchy-multi-part/Multi-part - Single - Doorframe starboard.stl" },
-  { name: "Fishing-rod-holder", url: "/stl/benchy-multi-part/Multi-part - Single - Fishing-rod-holder.stl" },
-  { name: "Gunwale", url: "/stl/benchy-multi-part/Multi-part - Single - Gunwale.stl" },
-  { name: "Hawsepipe port", url: "/stl/benchy-multi-part/Multi-part - Single - Hawsepipe port.stl" },
-  { name: "Hawsepipe starboard", url: "/stl/benchy-multi-part/Multi-part - Single - Hawsepipe starboard.stl" },
-  { name: "Hull", url: "/stl/benchy-multi-part/Multi-part - Single - Hull.stl" },
-  { name: "Stern name plate", url: "/stl/benchy-multi-part/Multi-part - Single - Stern name plate.stl" },
-  { name: "Stern window", url: "/stl/benchy-multi-part/Multi-part - Single - Stern window.stl" },
-  { name: "Wheel", url: "/stl/benchy-multi-part/Multi-part - Single - Wheel.stl" },
-  { name: "Window", url: "/stl/benchy-multi-part/Multi-part - Single - Window.stl" },
+  {
+    name: "Bridge roof",
+    url: "/stl/benchy-multi-part/Multi-part - Single - Bridge roof.stl",
+  },
+  {
+    name: "Bridge walls",
+    url: "/stl/benchy-multi-part/Multi-part - Single - Bridge walls.stl",
+  },
+  {
+    name: "Cargo box",
+    url: "/stl/benchy-multi-part/Multi-part - Single - Cargo box.stl",
+  },
+  {
+    name: "Chimney body",
+    url: "/stl/benchy-multi-part/Multi-part - Single - Chimney body.stl",
+  },
+  {
+    name: "Chimney top",
+    url: "/stl/benchy-multi-part/Multi-part - Single - Chimney top.stl",
+  },
+  {
+    name: "Deck surface",
+    url: "/stl/benchy-multi-part/Multi-part - Single - Deck surface.stl",
+  },
+  {
+    name: "Doorframe port",
+    url: "/stl/benchy-multi-part/Multi-part - Single - Doorframe port.stl",
+  },
+  {
+    name: "Doorframe starboard",
+    url: "/stl/benchy-multi-part/Multi-part - Single - Doorframe starboard.stl",
+  },
+  {
+    name: "Fishing-rod-holder",
+    url: "/stl/benchy-multi-part/Multi-part - Single - Fishing-rod-holder.stl",
+  },
+  {
+    name: "Gunwale",
+    url: "/stl/benchy-multi-part/Multi-part - Single - Gunwale.stl",
+  },
+  {
+    name: "Hawsepipe port",
+    url: "/stl/benchy-multi-part/Multi-part - Single - Hawsepipe port.stl",
+  },
+  {
+    name: "Hawsepipe starboard",
+    url: "/stl/benchy-multi-part/Multi-part - Single - Hawsepipe starboard.stl",
+  },
+  {
+    name: "Hull",
+    url: "/stl/benchy-multi-part/Multi-part - Single - Hull.stl",
+  },
+  {
+    name: "Stern name plate",
+    url: "/stl/benchy-multi-part/Multi-part - Single - Stern name plate.stl",
+  },
+  {
+    name: "Stern window",
+    url: "/stl/benchy-multi-part/Multi-part - Single - Stern window.stl",
+  },
+  {
+    name: "Wheel",
+    url: "/stl/benchy-multi-part/Multi-part - Single - Wheel.stl",
+  },
+  {
+    name: "Window",
+    url: "/stl/benchy-multi-part/Multi-part - Single - Window.stl",
+  },
 ];
 
 const sampleData: ModelItem[] = [
@@ -40,7 +92,7 @@ const sampleData: ModelItem[] = [
     id: 1,
     name: "3DBenchy - Multi-Part (17 parts)",
     type: "Multi-Part STL",
-    size: "2.8 MB",
+    size: "15.4 MB",
     dateAdded: "2025-12-07",
     isMultiPart: true,
     parts: benchyParts,
@@ -50,68 +102,48 @@ const sampleData: ModelItem[] = [
     id: 2,
     name: "3DBenchy - Complete",
     type: "STL Model",
-    size: "2.8 MB",
+    size: "11.0 MB",
     dateAdded: "2025-12-07",
     modelUrl: "/stl/benchy-multi-part/Multi-part - Complete (17 shells).stl",
     fileExtension: ".stl",
   },
   {
-    id: 6,
+    id: 3,
+    name: "Rubber Ducky",
+    type: "STL Model",
+    size: "14.1 MB",
+    dateAdded: "2025-12-11",
+    modelUrl: "/stl/Duck.stl",
+    fileExtension: ".stl",
+    defaultRotation: { x: 0, y: 0, z: 90 },
+  },
+  {
+    id: 4,
     name: "Cow",
     type: "OBJ Model",
-    size: "1.2 MB",
+    size: "0.17 MB",
     dateAdded: "2025-12-07",
     modelUrl: "/obj/cow.obj",
     fileExtension: ".obj",
   },
   {
-    id: 7,
+    id: 5,
     name: "Teapot",
     type: "OBJ Model",
-    size: "0.8 MB",
+    size: "0.20 MB",
     dateAdded: "2025-12-07",
     modelUrl: "/obj/teapot.obj",
     fileExtension: ".obj",
   },
   {
-    id: 8,
-    name: "Cube",
-    type: "Geometric",
-    size: "2.4 MB",
-    dateAdded: "2025-12-01",
-    modelType: "Cube",
-  },
-  {
-    id: 9,
-    name: "Sphere",
-    type: "Geometric",
-    size: "1.8 MB",
-    dateAdded: "2025-12-02",
-    modelType: "Sphere",
-  },
-  {
-    id: 10,
-    name: "Torus",
-    type: "Geometric",
-    size: "3.2 MB",
-    dateAdded: "2025-12-03",
-    modelType: "Torus",
-  },
-  {
-    id: 11,
-    name: "Cylinder",
-    type: "Geometric",
-    size: "2.1 MB",
-    dateAdded: "2025-12-04",
-    modelType: "Cylinder",
-  },
-  {
-    id: 12,
-    name: "Cone",
-    type: "Geometric",
-    size: "1.5 MB",
-    dateAdded: "2025-12-05",
-    modelType: "Cone",
+    id: 6,
+    name: "Emu",
+    type: "OBJ Model",
+    size: "2.70 MB",
+    dateAdded: "2025-12-11",
+    modelUrl: "/obj/emu.obj",
+    fileExtension: ".obj",
+    defaultRotation: { x: -90, y: 0, z: 180 },
   },
 ];
 
@@ -147,27 +179,30 @@ export default function DataTable() {
     if (!file) return;
 
     // Check if it's a supported 3D file format
-    const validExtensions = ['.gltf', '.glb', '.stl', '.obj'];
-    const fileExtension = file.name.toLowerCase().substring(file.name.lastIndexOf('.'));
-    
+    const validExtensions = [".gltf", ".glb", ".stl", ".obj"];
+    const fileExtension = file.name
+      .toLowerCase()
+      .substring(file.name.lastIndexOf("."));
+
     if (!validExtensions.includes(fileExtension)) {
       setToast({
-        message: 'Please upload a supported 3D model file (.gltf, .glb, .stl, or .obj)',
-        type: 'error',
+        message:
+          "Please upload a supported 3D model file (.gltf, .glb, .stl, or .obj)",
+        type: "error",
       });
       return;
     }
 
     // Create a URL for the uploaded file
     const fileUrl = URL.createObjectURL(file);
-    
+
     // Create new model item
     const newModel: ModelItem = {
       id: models.length + 1,
       name: file.name,
-      type: 'Uploaded',
+      type: "Uploaded",
       size: `${(file.size / 1024 / 1024).toFixed(2)} MB`,
-      dateAdded: new Date().toISOString().split('T')[0],
+      dateAdded: new Date().toISOString().split("T")[0],
       modelUrl: fileUrl,
       fileExtension: fileExtension,
     };
@@ -177,7 +212,7 @@ export default function DataTable() {
     setUploadDialogOpen(false);
     setToast({
       message: `Successfully uploaded ${file.name}`,
-      type: 'success',
+      type: "success",
     });
   };
 
@@ -186,7 +221,9 @@ export default function DataTable() {
       <div className="p-6">
         <div className="mb-6 flex items-center justify-between">
           <div>
-            <h2 className="text-2xl font-semibold text-white mb-2">3D Models</h2>
+            <h2 className="text-2xl font-semibold text-white mb-2">
+              3D Models
+            </h2>
             <p className="text-gray-400">
               Browse and view your collection of 3D models
             </p>
@@ -281,6 +318,7 @@ export default function DataTable() {
           fileExtension={selectedModel.fileExtension}
           isMultiPart={selectedModel.isMultiPart}
           parts={selectedModel.parts}
+          defaultRotation={selectedModel.defaultRotation}
         />
       )}
 

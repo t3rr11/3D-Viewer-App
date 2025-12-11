@@ -21,10 +21,14 @@ A modern web application for viewing and managing 3D models in the browser. Buil
 ### Visualization Features
 - **Interactive 3D Canvas**: Powered by React Three Fiber and Three.js
 - **Orbit Controls**: Pan, zoom, and rotate models with mouse/touch controls
+- **Model Rotation Controls**: Rotate models on X, Y, Z axes using sliders
+- **Transform Controls**: Move and rotate individual parts in multi-part models with interactive gizmos
+- **Multi-Selection**: Select multiple parts with Ctrl+Click for batch operations
 - **Auto-Rotation**: Optional automatic model rotation
 - **Grid Display**: Toggle-able reference grid for spatial context
 - **Environment Lighting**: Realistic lighting and shadows
 - **Camera Controls**: Adjustable camera positions and perspectives
+- **Keyboard Shortcuts**: Press G to move, R to rotate selected parts
 
 ### User Interface
 - **Model Library**: Browse and manage your collection of 3D models

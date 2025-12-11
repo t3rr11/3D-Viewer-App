@@ -1,8 +1,4 @@
 export { default as CubeModel } from "./CubeModel";
-export { default as SphereModel } from "./SphereModel";
-export { default as TorusModel } from "./TorusModel";
-export { default as CylinderModel } from "./CylinderModel";
-export { default as ConeModel } from "./ConeModel";
 export { default as GLTFModel } from "./GLTFModel";
 export { default as STLModel } from "./STLModel";
 export { default as OBJModel } from "./OBJModel";
