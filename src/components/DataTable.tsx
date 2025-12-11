@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import ModelDialog from "./ModelDialog";
 import Toast from "./Toast";
+import ModelThumbnail from "./ModelThumbnail";
 
 interface ModelItem {
   id: number;
@@ -14,6 +15,7 @@ interface ModelItem {
   isMultiPart?: boolean;
   parts?: { name: string; url: string }[];
   defaultRotation?: { x: number; y: number; z: number };
+  thumbnail?: string;
 }
 
 const benchyParts = [
@@ -258,15 +260,12 @@ export default function DataTable() {
                   Name
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
-                  Type
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                   Size
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
                   Date Added
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-400 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
@@ -275,15 +274,28 @@ export default function DataTable() {
               {models.map((item) => (
                 <tr
                   key={item.id}
-                  className="hover:bg-gray-800/50 transition-colors"
+                  onClick={() => handleViewClick(item)}
+                  className="hover:bg-gray-800/50 transition-colors cursor-pointer"
                 >
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-white">
-                      {item.name}
+                  <td className="px-6 py-4">
+                    <div className="flex items-center gap-4">
+                      <ModelThumbnail
+                        modelUrl={item.modelUrl}
+                        fileExtension={item.fileExtension}
+                        isMultiPart={item.isMultiPart}
+                        parts={item.parts}
+                        defaultRotation={item.defaultRotation}
+                        className="w-16 h-16"
+                      />
+                      <div>
+                        <div className="text-sm font-medium text-white">
+                          {item.name}
+                        </div>
+                        <div className="text-xs text-gray-400 mt-1">
+                          {item.type}
+                        </div>
+                      </div>
                     </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-400">{item.type}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-400">{item.size}</div>
@@ -293,7 +305,7 @@ export default function DataTable() {
                       {item.dateAdded}
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-6 py-4 whitespace-nowrap text-right">
                     <button
                       onClick={() => handleViewClick(item)}
                       className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors"
