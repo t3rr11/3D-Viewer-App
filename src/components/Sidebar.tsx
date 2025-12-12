@@ -8,7 +8,7 @@ interface SidebarProps {
 
 export default function Sidebar({ activeView, onViewChange }: SidebarProps) {
   return (
-    <aside className="w-64 bg-gray-900 border-r border-gray-800 p-4">
+    <aside className="w-64 h-full bg-gray-900 border-r border-gray-800 p-4">
       <nav className="space-y-2">
         <button
           onClick={() => onViewChange("table")}

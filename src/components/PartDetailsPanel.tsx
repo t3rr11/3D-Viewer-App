@@ -33,14 +33,14 @@ export default function PartDetailsPanel({
   })() : [];
 
   return (
-    <div className="absolute bottom-4 left-4 bg-gray-900/95 backdrop-blur-sm rounded-lg shadow-xl border border-gray-700 w-80 max-h-[calc(100vh-8rem)] flex flex-col z-40">
-      <div className="flex items-center justify-between p-4 border-b border-gray-700">
-        <h3 className="text-lg font-semibold text-white">
+    <div className="absolute bottom-2 sm:bottom-4 left-2 sm:left-4 bg-gray-900/95 backdrop-blur-sm rounded-lg shadow-xl border border-gray-700 w-[calc(100vw-1rem)] sm:w-80 max-w-sm max-h-[50vh] sm:max-h-[calc(100vh-8rem)] flex flex-col z-40">
+      <div className="flex items-center justify-between p-3 sm:p-4 border-b border-gray-700">
+        <h3 className="text-base sm:text-lg font-semibold text-white">
           {isMultiSelect ? "Selection Details" : "Part Details"}
         </h3>
         <button
           onClick={onClose}
-          className="text-gray-400 hover:text-white transition-colors"
+          className="text-gray-400 hover:text-white transition-colors p-1 touch-manipulation"
         >
           <svg
             className="w-5 h-5"
@@ -58,7 +58,7 @@ export default function PartDetailsPanel({
         </button>
       </div>
 
-      <div className="p-4 space-y-3 overflow-y-auto">
+      <div className="p-3 sm:p-4 space-y-2.5 sm:space-y-3 overflow-y-auto">
         <div>
           <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">
             {isMultiSelect ? "Selection" : "Name"}

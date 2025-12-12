@@ -155,21 +155,21 @@ export default function ModelDialog({
       />
 
       {/* Dialog */}
-      <div className="relative bg-gray-900 rounded-lg shadow-2xl w-[90vw] h-[90vh] flex flex-col border border-gray-800 model-dialog-container">
+      <div className="relative bg-gray-900 rounded-lg shadow-2xl w-full h-full sm:w-[90vw] sm:h-[90vh] flex flex-col border border-gray-800 model-dialog-container">
         {/* Dialog Header */}
         {uiVisible && (
-          <div className="flex items-center justify-between px-6 py-4 border-b border-gray-800">
-            <h2 className="text-xl font-semibold text-white">{modelName}</h2>
-            <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between px-3 sm:px-6 py-3 sm:py-4 border-b border-gray-800">
+            <h2 className="text-base sm:text-xl font-semibold text-white truncate mr-2">{modelName}</h2>
+            <div className="flex items-center gap-1 sm:gap-2 shrink-0">
               {/* Toggle UI Button */}
               <button
                 onClick={handleToggleUI}
-                className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-800 rounded-lg"
+                className="text-gray-400 hover:text-white transition-colors p-1.5 sm:p-2 hover:bg-gray-800 rounded-lg touch-manipulation"
                 title="Hide UI"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
+                  className="h-5 w-5 sm:h-6 sm:w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -182,10 +182,10 @@ export default function ModelDialog({
                   />
                 </svg>
               </button>
-              {/* Fullscreen Button */}
+              {/* Fullscreen Button - Hidden on mobile */}
               <button
                 onClick={handleFullscreen}
-                className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-800 rounded-lg"
+                className="hidden sm:block text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-800 rounded-lg"
                 title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
               >
                 <svg
@@ -215,12 +215,12 @@ export default function ModelDialog({
               {/* Close Button */}
               <button
                 onClick={onClose}
-                className="text-gray-400 hover:text-white transition-colors p-2 hover:bg-gray-800 rounded-lg"
+                className="text-gray-400 hover:text-white transition-colors p-1.5 sm:p-2 hover:bg-gray-800 rounded-lg touch-manipulation"
                 title="Close"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
+                  className="h-5 w-5 sm:h-6 sm:w-6"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -334,12 +334,12 @@ export default function ModelDialog({
 
         {/* Dialog Footer */}
         {uiVisible && (
-          <div className="px-6 py-4 border-t border-gray-800 bg-gray-900/50">
-            <p className="text-sm text-gray-400">
-              <strong className="text-gray-300">Controls:</strong> Use mouse to
-              rotate, zoom, and pan •
-              {isMultiPart && " Ctrl+Click to multi-select parts • "}
-              Double-click rotation sliders to reset to 0°
+          <div className="px-3 sm:px-6 py-3 sm:py-4 border-t border-gray-800 bg-gray-900/50">
+            <p className="text-xs sm:text-sm text-gray-400">
+              <strong className="text-gray-300">Controls:</strong> Use mouse/touch to
+              rotate, zoom, and pan
+              {isMultiPart && <span className="hidden sm:inline"> • Ctrl+Click to multi-select parts</span>}
+              <span className="hidden sm:inline"> • Double-click rotation sliders to reset to 0°</span>
             </p>
           </div>
         )}

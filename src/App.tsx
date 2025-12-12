@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import Sidebar from "./components/Sidebar";
+import MobileNav from "./components/MobileNav";
 import DataTable from "./components/DataTable";
 import DataGrid from "./components/DataGrid";
 import ErrorBoundary from "./components/ErrorBoundary";
@@ -35,10 +36,15 @@ function App() {
         {/* Header */}
         <Header />
 
+        {/* Mobile Navigation */}
+        <MobileNav activeView={activeView} onViewChange={handleViewChange} />
+
         {/* Main Layout: Sidebar + Content */}
         <div className="flex flex-1 overflow-hidden">
-          {/* Sidebar */}
-          <Sidebar activeView={activeView} onViewChange={handleViewChange} />
+          {/* Desktop Sidebar - Hidden on mobile */}
+          <div className="hidden lg:block">
+            <Sidebar activeView={activeView} onViewChange={handleViewChange} />
+          </div>
 
           {/* Main Content Area */}
           <main className="flex-1 overflow-auto bg-gray-950">

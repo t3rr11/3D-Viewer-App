@@ -57,26 +57,27 @@ export default function DataTable() {
 
   return (
     <>
-      <div className="p-6">
-        <div className="mb-6 flex items-center justify-between">
+      <div className="p-4 sm:p-6">
+        <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
           <div>
-            <h2 className="text-2xl font-semibold text-white mb-2">
+            <h2 className="text-xl sm:text-2xl font-semibold text-white mb-1 sm:mb-2">
               3D Models
             </h2>
-            <p className="text-gray-400">
+            <p className="text-sm sm:text-base text-gray-400">
               Browse and view your collection of 3D models
             </p>
           </div>
           <button
             onClick={() => setUploadDialogOpen(true)}
-            className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors flex items-center gap-2"
+            className="w-full sm:w-auto px-4 sm:px-6 py-2 sm:py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors flex items-center justify-center gap-2 text-sm sm:text-base"
           >
             <LoadIcon />
             Load Model
           </button>
         </div>
 
-        <div className="bg-gray-900 rounded-lg border border-gray-800 overflow-hidden">
+        {/* Desktop Table View */}
+        <div className="hidden md:block bg-gray-900 rounded-lg border border-gray-800 overflow-hidden">
           <table className="w-full">
             <thead className="bg-gray-800">
               <tr>
@@ -143,6 +144,54 @@ export default function DataTable() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Mobile Card View */}
+        <div className="md:hidden space-y-3">
+          {models.map((item) => (
+            <div
+              key={item.id}
+              onClick={() => handleViewClick(item)}
+              className="bg-gray-900 rounded-lg border border-gray-800 overflow-hidden hover:border-indigo-600 transition-all cursor-pointer"
+            >
+              <div className="flex gap-3 p-3">
+                <ModelThumbnail
+                  modelUrl={item.modelUrl}
+                  fileExtension={item.fileExtension}
+                  isMultiPart={item.isMultiPart}
+                  parts={item.parts}
+                  defaultRotation={item.defaultRotation}
+                  className="w-20 h-20 shrink-0"
+                />
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-sm font-medium text-white truncate">
+                    {item.name}
+                  </h3>
+                  <p className={`text-xs mt-1 ${
+                    item.type === "Loaded (Temporary)" ? "text-yellow-500" : "text-gray-400"
+                  }`}>
+                    {item.type}
+                  </p>
+                  <div className="flex gap-3 mt-2 text-xs text-gray-400">
+                    <span>{item.size}</span>
+                    <span>•</span>
+                    <span>{item.dateAdded}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="px-3 pb-3">
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleViewClick(item);
+                  }}
+                  className="w-full px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors"
+                >
+                  View Model
+                </button>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
